@@ -75,17 +75,40 @@
 Также в параметр MAP_ID нужно указать индекс карты, записанной в памяти навигационного блока.
 В режиме локализации |НБ| отдаёт глобальные координаты летательного аппарата в сообщении GLOBAL_POSITION_INT_ и координаты в локальной системе координат относительно точки старат в сообщении VISION_POSITION_ESTIMATE_.
 
+.. _GLOBAL_POSITION_INT: https://mavlink.io/en/messages/common.html#GLOBAL_POSITION_INT
+.. _VISION_POSITION_ESTIMATE: https://mavlink.io/en/messages/common.html#VISION_POSITION_ESTIMATE
+.. _ATTITUDE: https://mavlink.io/en/messages/common.html#ATTITUDE
+
+Индикация
+---------
+
+.. image:: _static/indicators.png
+   :target: _static/indicators.png
+
+На боковой стенке |НБ| расположены три светодиода, сигнализирующие о состоянии подсистем блока.
+Зелёный цвет означает, что всё в порядке, красный – есть проблемы.
+**Верхний светодиод** сигнализирует, работает ли вычисление высоты на основе данных дальномера и информации о наклоне.
+Возможные причины ошибок в этой подсистеме:
+
+- в |НБ| не поступает информация о наклоне
+- не работает дальномер
+- слишком большой угол наклона
+
+**Средний светодиод** используется, когда параметр |SAVE_MAP| выставлен в "1",и сигнализирует, поступают ли данные GPS.
+**Нижний светодиод** используется, когда параметр |LOAD_MAP| выставлен в "1", и сигнализирует, удалось ли загрузить требуемую карту.
+Возможные причины ошибок в загрузке карты:
+
+- не найден файл карты с указанным в |MAP_ID| индексом
+- файл карты повреждён
+
 .. |INIT_ALT| replace:: :ref:`INIT_ALT<init_alt_param>`
 .. |LOAD_MAP| replace:: :ref:`LOAD_MAP<load_map_param>`
 .. |SAVE_MAP| replace:: :ref:`SAVE_MAP<save_map_param>`
+.. |MAP_ID| replace:: :ref:`MAP_ID<map_id_param>`
 .. |ORIGIN_LAT| replace:: :ref:`ORIGIN_LAT<origin_lat_param>`
 .. |ORIGIN_LON| replace:: :ref:`ORIGIN_LON<origin_lon_param>`
 .. |ORIGIN_ALT| replace:: :ref:`ORIGIN_ALT<origin_alt_param>`
 .. |ORIGIN_HDG| replace:: :ref:`ORIGIN_HDG<origin_hdg_param>`
-
-.. _GLOBAL_POSITION_INT: https://mavlink.io/en/messages/common.html#GLOBAL_POSITION_INT
-.. _VISION_POSITION_ESTIMATE: https://mavlink.io/en/messages/common.html#VISION_POSITION_ESTIMATE
-.. _ATTITUDE: https://mavlink.io/en/messages/common.html#ATTITUDE
 
 Подключение навигационного блока к устройствам с нестандартными программными и аппаратными интерфейсами (UART)
 --------------------------------------------------------------------------------------------------------------
