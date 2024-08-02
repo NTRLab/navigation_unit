@@ -15,6 +15,7 @@
 import threading
 import time
 from pymavlink.mavutil import mavlink, mavlink_connection
+import sys
 
 def _send_heartbeat(connection, armed=False):
     base_mode = 0b10000000 if armed else 0b00000000
@@ -52,13 +53,20 @@ def shutdown(connection):
     return (result == mavlink.MAV_RESULT_ACCEPTED)
 
 def connect():
+    if len(sys.argv) != 3:
+        print('Usage:')
+        print(sys.argv[0] + ' tgt_sys tgt_comp')
+        exit(1)
     f = open('navblock_ip.txt')
     try:
         ip = f.read()
     finally:
         f.close()
 
-    return mavlink_connection('udpout:%s:14540' % (ip), source_system=1, source_component=0, dialect='common')
+    connection = mavlink_connection('udpout:%s' % (ip), source_system=1, source_component=190, dialect='common')
+    connection.target_system = int(sys.argv[1])
+    connection.target_component = int(sys.argv[2])
+    return connection
 
 def handle_statustext(connection, msg):
     if msg.get_type() != 'STATUSTEXT':
